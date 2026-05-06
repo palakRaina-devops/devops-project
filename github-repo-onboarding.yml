@@ -1,0 +1,68 @@
+apiVersion: harness.io/v1
+kind: Workflow
+type: workflow
+identifier: GitHub_Repository_Onboarding
+name: GitHub Repository Onboarding
+owner: user:account/palak.raina@harness.io
+spec:
+  lifecycle: production
+  output:
+    links:
+    - title: Pipeline Details
+      url: ${{ steps.trigger.output.PipelineUrl }}
+    text:
+    - title: Output Variable
+      content: |
+        Output Variable **OutVar** is `${{ steps.trigger.output['pipeline.stages.GitHub_Repo_Onboarding.spec.execution.steps.Run_6.output.outputVariables.OutVar'] }}'
+    - title: Another Output Variable
+      content: |
+        Output Variable **RepoName** is `${{ steps.trigger.output.RepoName }}`
+  parameters:
+  - title: Repository Details
+    required:
+    - orgName
+    - repoName
+    - branchName
+    properties:
+      orgName:
+        title: GitHub Organization (Owner)
+        type: string
+        description: Mention the owner username
+      repoName:
+        title: Repository Name
+        type: string
+        description: Mention the repository name to be created
+      repoDesc:
+        title: Repository Description
+        type: string
+        description: Mention the repository description
+      branchName:
+        title: Branch Name
+        type: string
+        description: Mention the branch name to be created
+      token:
+        title: Harness Token
+        type: string
+        ui:widget: password
+        ui:field: HarnessAuthToken
+    token:
+      title: Harness Token
+      type: string
+      ui:widget: password
+      ui:field: HarnessAuthToken
+  steps:
+  - id: trigger
+    name: Creating your new repository
+    action: trigger:harness-custom-pipeline
+    input:
+      url: https://app.harness.io/ng/account/B8Q-sZ47TVWHi3jS5r2CSQ/all/orgs/default/projects/palak_labs/pipelines/GitHub_Repository_Onboarding/pipeline-studio/?storeType=INLINE
+      inputset:
+        org_name: ${{ parameters.orgName }}
+        repo_name: ${{ parameters.repoName }}
+        repo_desc: ${{ parameters.repoDesc }}
+        repo_branch_name: ${{ parameters.branchName }}
+      apikey: ${{ parameters.token }}
+      showOutputVariables: true
+metadata:
+  annotations:
+    backstage.io/techdocs-ref: url:https://github.com/palakRaina-devops/harness-labs/tree/main/
