@@ -17,6 +17,15 @@ spec:
     - title: Another Output Variable
       content: |
         Output Variable **RepoName** is `${{ steps.trigger.output.RepoName }}`
+  proxy:
+    endpoints:
+      /harness/prod:
+        target: https://app.harness.io/
+        pathRewrite:
+          /api/proxy/harness/prod/?: /
+        allowedHeaders:
+        - authorization
+        - Harness-Account
   parameters:
   - title: Repository Details
     required:
