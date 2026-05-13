@@ -23,6 +23,7 @@ spec:
       - dev
       - staging
       - production
+      description: The environment for deployment
   proxy:
     endpoints:
       /harness/prod:
