@@ -17,13 +17,6 @@ spec:
     - title: Another Output Variable
       content: |
         Output Variable **RepoName** is `${{ steps.trigger.output.RepoName }}`
-    - title: Deployment Environment
-      type: string
-      enum:
-      - dev
-      - staging
-      - production
-      description: The environment for deployment
   proxy:
     endpoints:
       /harness/prod:
@@ -56,6 +49,14 @@ spec:
         title: Branch Name
         type: string
         description: Mention the branch name to be created
+      Enum:
+        title: Simple Enum input
+        type: string
+        enum:
+        - dev
+        - staging
+        - production
+        description: The environment for deployment
       token:
         title: Harness Token
         type: string
