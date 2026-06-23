@@ -1,0 +1,20 @@
+apiVersion: harness.io/v1
+kind: Component
+type: service
+identifier: palak_github_integration
+name: palak_github_integration
+owner: user:account/palak.raina@harness.io
+spec:
+  lifecycle: experimental
+  ownedBy:
+  - group/sample-group
+metadata:
+  description: My Sample service.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://github.com/palakOrg/testing6
+  links:
+  - title: Website
+    url: http://my-sample-website.com
+  tags:
+  - my-sample
