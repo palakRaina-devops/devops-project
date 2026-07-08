@@ -1,0 +1,22 @@
+template:
+  name: git-remote
+  identifier: gitremote
+  type: Step
+  orgIdentifier: default
+  tags: {}
+  spec:
+    timeout: 10m
+    type: ShellScript
+    spec:
+      shell: Bash
+      executionTarget: {}
+      delegateSelectors: []
+      source:
+        type: Inline
+        spec:
+          script: |-
+            echo "hello"
+            echo "git remote"
+      environmentVariables: []
+      outputVariables: []
+  versionLabel: v2
