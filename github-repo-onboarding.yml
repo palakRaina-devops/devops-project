@@ -1,25 +1,22 @@
 apiVersion: harness.io/v1
 kind: Workflow
-name: GitHub Repository Onboarding
-identifier: GitHub_Repository_Onboarding
 type: workflow
+identifier: GitHub_Repository_Onboarding
+name: GitHub Repository Onboarding
 owner: user:account/palak.raina@harness.io
-metadata:
-  annotations:
-    backstage.io/techdocs-ref: url:https://github.com/palakRaina-devops/harness-labs/tree/main/
 spec:
   lifecycle: production
   output:
     links:
-      - title: Pipeline Details
-        url: ${{ steps.trigger.output.PipelineUrl }}
+    - title: Pipeline Details
+      url: ${{ steps.trigger.output.PipelineUrl }}
     text:
-      - title: Output Variable
-        content: |
-          Output Variable **OutVar** is `${{ steps.trigger.output['pipeline.stages.GitHub_Repo_Onboarding.spec.execution.steps.Run_6.output.outputVariables.OutVar'] }}'
-      - title: Another Output Variable
-        content: |
-          Output Variable **RepoName** is `${{ steps.trigger.output.RepoName }}`
+    - title: Output Variable
+      content: |
+        Output Variable **OutVar** is `${{ steps.trigger.output['pipeline.stages.GitHub_Repo_Onboarding.spec.execution.steps.Run_6.output.outputVariables.OutVar'] }}'
+    - title: Another Output Variable
+      content: |
+        Output Variable **RepoName** is `${{ steps.trigger.output.RepoName }}`
   proxy:
     endpoints:
       /harness/prod:
@@ -27,95 +24,99 @@ spec:
         pathRewrite:
           /api/proxy/harness/prod/?: /
         allowedHeaders:
-          - authorization
-          - Harness-Account
+        - authorization
+        - Harness-Account
   parameters:
-    - title: Repository Details
-      required:
-        - orgName
-        - repoName
-        - branchName
-      properties:
-        orgName:
-          title: GitHub Organization (Owner)
-          type: string
-          description: Mention the owner username
-        repoName:
-          title: Repository Name
-          type: string
-          description: Mention the repository name to be created
-        repoDesc:
-          title: Repository Description
-          type: string
-          description: Mention the repository description
-        branchName:
-          title: Branch Name
-          type: string
-          description: Mention the branch name to be created
-        serviceIdentifier:
-          title: Enter the Service identifier
-          type: string
-          description: Mention the service Identifier to be created
-        serviceName:
-          title: Enter the service name
-          type: string
-          description: Mention the service name
-        filePath:
-          title: enter the catalog file name
-          type: string
-          description: Mention the file path
-        Enum:
-          title: Simple Enum input
-          type: string
-          enum:
-            - dev
-            - staging
-            - production
-          description: The environment for deployment
-        volume_type:
-          title: Volume Type
-          type: string
-          description: The volume type to be used
-          default: gp2
-          enum:
-            - gp2
-            - gp3
-            - io1
-            - io2
-            - sc1
-            - st1
-            - standard
-          enumNames:
-            - General Purpose SSD (gp2)
-            - General Purpose SSD (gp3)
-            - Provisioned IOPS (io1)
-            - Provisioned IOPS (io2)
-            - Cold HDD (sc1)
-            - Throughput Optimized HDD (st1)
-            - Magnetic (standard)
-        token:
-          title: Harness Token
-          type: string
-          ui:widget: password
-          ui:field: HarnessAuthToken
+  - title: Repository Details
+    required:
+    - orgName
+    - repoName
+    - branchName
+    properties:
+      orgName:
+        title: GitHub Organization (Owner)
+        type: string
+        description: Mention the owner username
+      repoName:
+        title: Repository Name
+        type: string
+        description: Mention the repository name to be created
+      repoDesc:
+        title: Repository Description
+        type: string
+        description: Mention the repository description
+      branchName:
+        title: Branch Name
+        type: string
+        description: Mention the branch name to be created
+      serviceIdentifier:
+        title: Enter the Service identifier
+        type: string
+        description: Mention the service Identifier to be created
+      serviceName:
+        title: Enter the service name
+        type: string
+        description: Mention the service name
+      filePath:
+        title: enter the catalog file name
+        type: string
+        description: Mention the file path
+      Enum:
+        title: Simple Enum input
+        type: string
+        enum:
+        - dev
+        - staging
+        - production
+        - pre-prod
+        description: The environment for deployment
+      volume_type:
+        title: Volume Type
+        type: string
+        description: The volume type to be used
+        default: gp2
+        enum:
+        - gp2
+        - gp3
+        - io1
+        - io2
+        - sc1
+        - st1
+        - standard
+        enumNames:
+        - General Purpose SSD (gp2)
+        - General Purpose SSD (gp3)
+        - Provisioned IOPS (io1)
+        - Provisioned IOPS (io2)
+        - Cold HDD (sc1)
+        - Throughput Optimized HDD (st1)
+        - Magnetic (standard)
       token:
         title: Harness Token
         type: string
         ui:widget: password
         ui:field: HarnessAuthToken
+    token:
+      title: Harness Token
+      type: string
+      ui:widget: password
+      ui:field: HarnessAuthToken
   steps:
-    - id: trigger
-      name: Creating your new repository
-      action: trigger:harness-custom-pipeline
-      input:
-        url: https://app.harness.io/ng/account/B8Q-sZ47TVWHi3jS5r2CSQ/all/orgs/default/projects/palak_labs/pipelines/GitHub_Repository_Onboarding/pipeline-studio/?storeType=INLINE
-        inputset:
-          org_name: ${{ parameters.orgName }}
-          repo_name: ${{ parameters.repoName }}
-          repo_desc: ${{ parameters.repoDesc }}
-          repo_branch_name: ${{ parameters.branchName }}
-          file_path: ${{ parameters.filePath }}
-          service_identifier: ${{ parameters.serviceIdentifier }}
-          service_name: ${{ parameters.serviceName }}
-        apikey: ${{ parameters.token }}
-        showOutputVariables: true
+  - id: trigger
+    name: Creating your new repository
+    action: trigger:harness-custom-pipeline
+    input:
+      url: https://app.harness.io/ng/account/B8Q-sZ47TVWHi3jS5r2CSQ/all/orgs/default/projects/palak_labs/pipelines/GitHub_Repository_Onboarding/pipeline-studio/?storeType=INLINE
+      inputset:
+        org_name: ${{ parameters.orgName }}
+        repo_name: ${{ parameters.repoName }}
+        repo_desc: ${{ parameters.repoDesc }}
+        repo_branch_name: ${{ parameters.branchName }}
+        file_path: ${{ parameters.filePath }}
+        service_identifier: ${{ parameters.serviceIdentifier }}
+        service_name: ${{ parameters.serviceName }}
+      apikey: ${{ parameters.token }}
+      showOutputVariables: true
+metadata:
+  annotations:
+    backstage.io/techdocs-ref: url:https://github.com/palakRaina-devops/harness-labs/tree/main/
